@@ -1,3 +1,4 @@
+
 name: Compilar APK
 
 on:
@@ -25,14 +26,14 @@ jobs:
 
       - name: Dar permissão ao Gradle
         run: chmod +x gradlew
-        working-directory: ./HSHPDF-Android
+        working-directory: "./HSHPDF-Android (1)/HSHPDF-Android"
 
       - name: Compilar APK
         run: ./gradlew assembleDebug
-        working-directory: ./HSHPDF-Android
+        working-directory: "./HSHPDF-Android (1)/HSHPDF-Android"
 
       - name: Disponibilizar APK
         uses: actions/upload-artifact@v4
         with:
           name: HSHPDF-APK
-          path: HSHPDF-Android/app/build/outputs/apk/debug/*.apk
+          path: "HSHPDF-Android (1)/HSHPDF-Android/app/build/outputs/apk/debug/*.apk"
