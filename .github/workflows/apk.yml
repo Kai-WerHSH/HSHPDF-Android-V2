@@ -21,36 +21,18 @@ jobs:
           distribution: temurin
           java-version: 17
 
-      - name: Configurar Gradle
+      - name: Instalar Gradle
         uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.9'
 
-      - name: Localizar e compilar projeto
-        shell: bash
-        run: |
-          echo "Procurando gradlew..."
-
-          GRADLEW=$(find . -type f -name gradlew -not -path './.git/*' | head -n 1)
-
-          if [ -z "$GRADLEW" ]; then
-            echo "ERRO: arquivo gradlew não encontrado."
-            echo "Estrutura de arquivos:"
-            find . -maxdepth 6 -type f | head -n 150
-            exit 1
-          fi
-
-          echo "Encontrado: $GRADLEW"
-
-          PROJECT_DIR=$(dirname "$GRADLEW")
-
-          chmod +x "$GRADLEW"
-
-          cd "$PROJECT_DIR"
-
-          ./gradlew assembleDebug
+      - name: Compilar APK
+        working-directory: "./HSHPDF-Android (1)/HSHPDF-Android"
+        run: gradle assembleDebug
 
       - name: Disponibilizar APK
         uses: actions/upload-artifact@v4
         with:
           name: HSHPDF-APK
-          path: "**/app/build/outputs/apk/debug/*.apk"
+          path: "HSHPDF-Android (1)/HSHPDF-Android/app/build/outputs/apk/debug/*.apk"
           if-no-files-found: error
